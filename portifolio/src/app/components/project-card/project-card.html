@@ -1,0 +1,46 @@
+<article class="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all border border-slate-100 dark:border-slate-700 flex flex-col h-full group">
+  <div class="relative h-48 overflow-hidden bg-slate-200 dark:bg-slate-700">
+    <img 
+      ngSrc="images/projects/default.jpg" 
+      fill 
+      class="object-cover group-hover:scale-110 transition-transform duration-500" 
+      alt="{{ project().title }}">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+      <div class="flex gap-2">
+        @if (project().produtionLink) {
+          <a [href]="project().produtionLink" target="_blank" class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors" title="Ver Produção">
+            <img ngSrc="images/icons/screen-svgrepo-com.svg" width="20" height="20" alt="Produção" class="brightness-0 invert">
+          </a>
+        }
+        @if (project().repositoryLink) {
+          <a [href]="project().repositoryLink" target="_blank" class="p-2 bg-slate-800 text-white rounded-lg hover:bg-slate-900 transition-colors" title="Ver Repositório">
+            <img ngSrc="images/social/github-icon.svg" width="20" height="20" alt="GitHub" class="brightness-0 invert">
+          </a>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="p-6 flex flex-col flex-grow">
+    <div class="flex flex-wrap gap-2 mb-4">
+      @for (tech of project().tecnosUsed; track tech) {
+        @let info = getTechInfo(tech);
+        <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-md text-xs font-medium border border-slate-200 dark:border-slate-600">
+          {{ info?.realName || tech }}
+        </span>
+      }
+    </div>
+
+    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">{{ project().title }}</h3>
+    <p class="text-slate-600 dark:text-slate-400 text-sm line-clamp-4 flex-grow">
+      {{ project().description }}
+    </p>
+
+    <div class="mt-6 pt-6 border-t border-slate-50 dark:border-slate-700 flex justify-between items-center">
+      <a [routerLink]="['/project', project().id]" class="text-blue-600 dark:text-blue-400 font-semibold text-sm group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+        Ver Detalhes
+        <img ngSrc="images/icons/arrow-up-right-from-square-svgrepo-com.svg" width="14" height="14" alt="" class="dark:brightness-0 dark:invert opacity-60">
+      </a>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,68 @@
+<section class="min-h-screen pt-32 pb-24 bg-slate-50 dark:bg-slate-950 transition-colors">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
+      <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white">Dashboard Admin</h1>
+      
+      <!-- Filter Controls -->
+      <div class="flex bg-white dark:bg-slate-800 p-1 rounded-2xl border border-slate-200 dark:border-slate-700">
+        <button (click)="setFilter('projects')" [class.bg-blue-600]="currentFilter() === 'projects'" [class.text-white]="currentFilter() === 'projects'" class="px-6 py-2 rounded-xl text-sm font-bold transition-all">Projetos</button>
+        <button (click)="setFilter('skills')" [class.bg-blue-600]="currentFilter() === 'skills'" [class.text-white]="currentFilter() === 'skills'" class="px-6 py-2 rounded-xl text-sm font-bold transition-all">Skills</button>
+        <button (click)="setFilter('experiences')" [class.bg-blue-600]="currentFilter() === 'experiences'" [class.text-white]="currentFilter() === 'experiences'" class="px-6 py-2 rounded-xl text-sm font-bold transition-all">Experiências</button>
+      </div>
+
+      <button (click)="openAddModal()" class="px-8 py-3 bg-blue-600 text-white rounded-full font-bold shadow-lg hover:bg-blue-700 transition-all">
+        Adicionar Novo
+      </button>
+    </div>
+
+    <!-- Data Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      @let currentData = currentFilter() === 'projects' ? projects() : currentFilter() === 'skills' ? skills() : experiences();
+      
+      @for (item of currentData; track item.id) {
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col h-full group">
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">{{ item.title || item.label || item.name }}</h3>
+          <p class="text-sm text-slate-500 dark:text-slate-400 flex-grow mb-6 line-clamp-3">
+            {{ item.description || item.type || 'Sem descrição' }}
+          </p>
+
+          <div class="flex gap-2 pt-4 border-t border-slate-50 dark:border-slate-800">
+            <button (click)="buildForm(item)" class="flex-1 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-xs font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">Editar</button>
+            <button (click)="onDelete(item.id)" class="px-3 py-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg text-xs font-bold hover:bg-red-100 dark:hover:bg-red-900/40 transition-all">Apagar</button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Dynamic Form Modal -->
+  @if (isModalOpen()) {
+    <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+      <div class="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-3xl p-8 max-h-[90vh] overflow-y-auto shadow-2xl">
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">
+          {{ editingId() ? 'Editar' : 'Adicionar' }} {{ currentFilter() | titlecase }}
+        </h2>
+
+        <form [formGroup]="dynamicForm" (ngSubmit)="onSave()" class="space-y-4">
+          @for (control of dynamicForm.controls | keyvalue; track control.key) {
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 capitalize">{{ control.key }}</label>
+              @if (control.key === 'description' || control.key === 'longDescription') {
+                <textarea [formControlName]="control.key" rows="4" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+              } @else {
+                <input [type]="control.key === 'isProfessional' ? 'checkbox' : 'text'" [formControlName]="control.key" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl outline-none focus:ring-2 focus:ring-blue-500">
+              }
+            </div>
+          }
+
+          <div class="flex gap-4 pt-6">
+            <button type="button" (click)="closeModal()" class="flex-1 py-4 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold rounded-xl">Cancelar</button>
+            <button type="submit" [disabled]="dynamicForm.invalid" class="flex-1 py-4 bg-blue-600 text-white font-bold rounded-xl shadow-lg shadow-blue-200 dark:shadow-none hover:bg-blue-700 transition-all disabled:opacity-50">
+              Salvar Alterações
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</section>

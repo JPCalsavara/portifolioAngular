@@ -1,0 +1,40 @@
+<article class="flex flex-col md:flex-row w-full gap-8 items-start p-8 bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-lg transition-all">
+  <div class="w-24 h-24 flex-shrink-0 bg-slate-50 dark:bg-slate-700 rounded-2xl overflow-hidden flex items-center justify-center p-2">
+    <img 
+      [ngSrc]="'images/experiences/' + experience().imageName + '.jpeg'" 
+      width="80" 
+      height="80" 
+      class="object-contain" 
+      [alt]="experience().title">
+  </div>
+
+  <div class="flex-grow">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+      <h3 class="text-2xl font-bold text-slate-900 dark:text-white">{{ experience().title }}</h3>
+      <div class="flex gap-4">
+        @if (experience().link) {
+          <a [href]="experience().link" target="_blank" class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold hover:underline">
+            Site
+            <img ngSrc="images/icons/arrow-up-right-from-square-svgrepo-com.svg" width="14" height="14" alt="" class="dark:brightness-0 dark:invert opacity-60">
+          </a>
+        }
+        <a [routerLink]="['/experience', experience().id]" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">
+          Detalhes
+        </a>
+      </div>
+    </div>
+
+    <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6 whitespace-pre-line">
+      {{ experience().description }}
+    </p>
+
+    <div class="flex flex-wrap gap-2">
+      @for (skill of experience().skillsLearned; track skill) {
+        @let info = getTechInfo(skill);
+        <span class="px-3 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-xs font-semibold">
+          {{ info?.realName || skill }}
+        </span>
+      }
+    </div>
+  </div>
+</article>

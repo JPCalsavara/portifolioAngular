@@ -1,0 +1,42 @@
+<section id="home" class="min-h-screen flex items-center pt-16 bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-blue-900/20 transition-colors">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col md:flex-row items-center justify-between gap-12">
+    <div class="flex-1 text-center md:text-left animate-in fade-in slide-in-from-left duration-1000">
+      <h2 class="text-blue-600 dark:text-blue-400 font-bold tracking-wider uppercase text-sm mb-3">Desenvolvedor Backend</h2>
+      <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 dark:text-white leading-tight mb-6">
+        Olá, eu sou <br>
+        <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">João Pedro Calsavara</span>
+      </h1>
+      <p class="text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-2xl">
+        Especialista em .NET 8, Clean Architecture e DDD. Atualmente atuando na Mottu construindo soluções escaláveis e performáticas.
+      </p>
+      
+      <div class="flex flex-wrap justify-center md:justify-start gap-4 mb-10">
+        <a href="#projects" class="px-8 py-3 bg-blue-600 text-white rounded-full font-semibold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 dark:shadow-none">Ver Projetos</a>
+        <a href="#contact" class="px-8 py-3 bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 border border-blue-600 dark:border-blue-400 rounded-full font-semibold hover:bg-blue-50 dark:hover:bg-slate-700 transition-all">Entrar em Contato</a>
+      </div>
+      
+      <div class="flex justify-center md:justify-start gap-6">
+        @for (link of socialLinks; track link.label) {
+          <a [href]="link.url" target="_blank" [aria-label]="link.label" class="p-3 bg-white dark:bg-slate-800 rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all border border-transparent dark:border-slate-700">
+            <img [ngSrc]="link.icon" width="24" height="24" [alt]="link.label" class="dark:brightness-0 dark:invert">
+          </a>
+        }
+      </div>
+    </div>
+    
+    <div class="flex-1 flex justify-center animate-in fade-in slide-in-from-right duration-1000">
+      <div class="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
+        <div class="absolute inset-0 bg-blue-600 rounded-3xl rotate-6 opacity-10 dark:opacity-20"></div>
+        <div class="absolute inset-0 bg-indigo-600 rounded-3xl -rotate-3 opacity-10 dark:opacity-20"></div>
+        <div class="relative w-full h-full overflow-hidden rounded-3xl shadow-2xl">
+          <img 
+            ngSrc="images/hero-img.jpg" 
+            fill 
+            priority 
+            class="object-cover" 
+            alt="João Pedro Calsavara">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
